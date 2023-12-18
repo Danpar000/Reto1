@@ -1,0 +1,133 @@
+import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class test {
+
+    public static int pedirmetodo () {
+        System.out.print("Hola, tienes los siguientes métodos - (0 - Notación decimal / 1 - Notación CDIR)");
+        System.out.println();
+        String error = "La opción no es válida, vuelve a intentarlo.";
+        byte a = 0;
+        for (int salida = 0; salida == 0; ) {
+            for (int cont = 0; cont == 0; ) {
+                try {
+                    /*Pido opción para la calculadora*/
+                    System.out.print("Opción: ");
+                    Scanner sc = new Scanner(System.in);
+                    byte metodo = sc.nextByte();
+                    if (metodo == 0) {
+                        System.out.println("Método elegido: Notación decimal.");
+                        cont++;
+                        salida++;
+                    } else if (metodo == 1) {
+                        System.out.println("Método elegido: Notación CDIR");
+                        a = metodo;
+                        cont++;
+                        salida++;
+                    } else {
+                        System.out.println(error);
+                    }
+                } catch (Exception e) {
+                    System.out.println(error);
+                    cont++;
+                }
+            }
+        }
+        return a;
+    }
+
+    public static String pedirIP () {
+        String ip = "";
+        System.out.print("Por favor introduce una IP: ");
+        try {
+            Scanner sc = new Scanner(System.in);
+            ip = sc.next();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error.");
+        }
+        return ip;
+    }
+
+    public static String[] pedirmascara (int metodo) {
+        Scanner sc = new Scanner(System.in);
+        try {
+            if (metodo == 0) {
+                String[] mascara = new String[4];
+                System.out.print("Introduce la máscara en notación decimal: ");
+                return segmentarIP(sc.next());
+            } else if (metodo == 1) {
+                String[] mascara = new String[1];
+                System.out.println("Introduce la máscara en notación CDIR");
+                mascara[0] = sc.next();
+                return mascara;
+            }
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error.");
+        }
+        return null;
+    }
+
+    public static String[] segmentarIP(String ip) {
+        int aux = 0;
+        byte longitud = 0;
+        int auxarray = 0;
+        int cont = 1;
+        /*------- COMPRUEBO LONGITUD ARRAY -------*/
+        for (; longitud<ip.length(); longitud++) {
+            if (String.valueOf(ip.charAt(longitud)).equals(".")) {
+                cont++;
+            }
+        }
+        String[] array = new String[cont];
+        /*-----------------------------------------*/
+
+        /*------- PARTO LA IP EN PARTES, SEGMENTADAS POR EL PUNTO -------*/
+        longitud = 0;
+        for (; longitud<ip.length(); longitud++) {
+            try {
+                if (String.valueOf(ip.charAt(longitud)).equals(".")) {
+
+                    array[auxarray] = ip.substring(aux, longitud);
+                    aux = longitud+1;
+                    auxarray++;
+                }
+            } catch (Exception e) {
+                System.out.println("Ha ocurrido un error.");
+            }
+        }
+        if (longitud==ip.length()){
+            array[auxarray] = ip.substring(aux, longitud);
+        }
+        /*----------------------------------------------------------------*/
+        return array;
+    }
+
+    public static int[] stringToInt (String[] arrayIP) {
+        int[] arrayInt=new int[4];
+        for (int cont=0; cont<=3; cont++) {
+            arrayInt[cont] = Integer.parseInt(arrayIP[cont]);
+        }
+        return arrayInt;
+    }
+
+    public static String[] stringToBinary (String[] arrayStringIP) {
+        String[] arrayBinario = new String[4];
+        for (int cont=0; cont<=3; cont++) {
+            arrayBinario[cont] = Integer.toBinaryString(Integer.parseInt(arrayStringIP[cont]));
+        }
+        return arrayBinario;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Prueba");
+//        System.out.println(Arrays.toString(segmentarIP(pedirIP())));
+        System.out.println("IP A BINARIO:");
+        System.out.println(Arrays.toString(stringToInt(stringToBinary(segmentarIP(pedirIP())))));
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("MASCARA EN BINARIO");
+        System.out.println(Arrays.toString(stringToInt(stringToBinary(segmentarIP(pedirmascara(pedirmetodo()))))));
+    }
+}
