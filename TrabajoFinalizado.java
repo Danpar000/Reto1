@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class TrabajoFinalizado {
+public class Calculadora {
     public static int mascaraTipo (){ // Pide tipo de máscara
         try {
             System.out.println("Introduce el formato de la máscara (0-Decimal / 1-CDIR)");
