@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class odiar {
+public class TrabajoFinalizado {
     public static int mascaraTipo (){ // Pide tipo de máscara
         try {
-            System.out.println("Hola, introduce el formato de la máscara (0-Decimal / 1-CDIR)");
+            System.out.println("Introduce el formato de la máscara (0-Decimal / 1-CDIR)");
             for (int cont = 0; cont==0; cont++) { //Comprobar opción valida
                 Scanner sc = new Scanner(System.in);
                 System.out.print("Opción: ");
@@ -54,7 +54,6 @@ public class odiar {
             }
             // 2) Comprobar longitud del array
             if (cont==4) { // Longitud correcta
-                System.out.println("OK - Longitud correcta, continuando.");
                 return 0;
             } else if (cont>4){ // Longitud incorrecta (>)
                 System.out.println("ERROR - Los datos introducidos tienen más de 4 octetos, abortando...");
@@ -125,7 +124,6 @@ public class odiar {
                 }
             }
             if (correcto==4) { // Correcto, valores dentro del rango.
-                System.out.println("OK - Los valores están dentro del rango, continuando...");
                 return 0;
             } else { // Incorrecto, valores fuera del rango.
                 System.out.println("ERROR - Los valores no están dentro del rango, abortando...");
@@ -195,7 +193,6 @@ public class odiar {
                     }
                 }
                 if (valor==0 && aux==0) {
-                    System.out.println("OK - Los valores están dentro del rango, continuando...");
                     return 0;
                 } else {
                     System.out.println("ERROR - Los valores no están dentro del rango, abortando...");
@@ -210,7 +207,6 @@ public class odiar {
         try {
             // 1) Comprueba si la máscara está dentro del rango
             if (Integer.parseInt(dato)>0 && Integer.parseInt(dato)<33) { // Correcto, está dentro del rango, continúa
-                System.out.println("OK - La máscara proporcionada está dentro del rango, continuando...");
                 return 0;
             } else { // Incorrecto, no está dentro del rango, aborta
                 System.out.println("ERROR - La máscara está fuera del rango, abortando...");
@@ -366,10 +362,16 @@ public class odiar {
             } else if (direccionRedInt[0]>239) {
                 letra = "E";
             }
-            System.out.println("------------------------------------------------------");
-            System.out.println("I N F O R M A C I Ó N");
-            System.out.println("------------------------------------------------------");
-            System.out.println("Tipo de clase: " + letra);
+
+            //Fix tipo IP
+            String tipo = "";
+            if (dato2[0] == 10 || dato2[0] == 172 && dato2[1]>=0 && dato2[1]<=31 || dato2[0] == 192 && dato2[1] == 168) {
+                tipo = "Privada";
+            } else {
+                tipo = "Pública";
+            }
+
+            System.out.println("IP " + tipo + " de clase: " + letra);
             // 9) Calculo el número de hosts:
             int hosts = (int) Math.pow(2, cerosaux);
             System.out.println("Total de direcciones posibles = " + hosts);
@@ -427,13 +429,11 @@ public class odiar {
                 // 3) Pedir Máscara
                 String mascara = introducirDatos(masktype);
                 // 5) Comprobar longitud del array (IP)
-                System.out.println("Comprobando longitud de la IP...");
                 int ipLongitudComprobante = comprobarLongitud(ip);
                 // 6) Segmentar IP
                 String[] ipSegmentada = segmentar(ip, ipLongitudComprobante);
                 // 7) Convertir IP segmentada a entero
                 int[] ipInt = stringInt(ipSegmentada);
-                System.out.println("Comprobando valores de la IP...");
                 // 8) Comprobar los rangos de los valores de la IP
                 int ipValorComprobante = comprobarRango(ipInt);
                 // 9) Convertir IP a binario
@@ -441,17 +441,14 @@ public class odiar {
                 if (masktype==0) {
                     // APARTADO: Máscara Decimal - Pasos 1-9 //
                     // 1) Comprobar longitud del array (Máscara)
-                    System.out.println("Comprobando longitud de la Máscara...");
                     int mascaraLongitudComprobante = comprobarLongitud(mascara);
                     // 2) Segmentar Máscara
                     String[] mascaraSegmentada = segmentar(mascara, mascaraLongitudComprobante);
                     // 3) Convertir Máscara segmentada a entero
                     int[] mascaraInt = stringInt(mascaraSegmentada);
                     // 4) Comprobar los rangos de los valores de la Máscara
-                    System.out.println("Comprobando rango de valores de la Máscara...");
                     int mascaraRangoComprobante = comprobarRango(mascaraInt);
                     // 5) Comprobar los valores de la Máscara
-                    System.out.println("Comprobando valores de la Máscara...");
                     int mascaraValorComprobante = comprobarValores(mascaraInt, mascaraRangoComprobante);
                     // 6) Convertir Máscara a binario
                     String[] mascaraBinario = stringBinario(mascaraSegmentada, mascaraValorComprobante);
